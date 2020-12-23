@@ -18,6 +18,7 @@ import java.util.List;
 
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ItemVH> {
     private List<Location.city> mLocationCityList;
+    private TextView tv_dialog;
 
     private static final int TYPE_GROUP = 0xa01;
     private static final int TYPE_CHILD = 0xa02;
@@ -48,6 +49,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ItemVH
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(ItemVH holder, int position) {
+
         Location.city city = mLocationCityList.get(position);
         switch (getItemViewType(position)) {
             case TYPE_GROUP:
@@ -57,7 +59,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ItemVH
                 break;
             case TYPE_CHILD:
                 Child c = (Child) city;
-                ChildVH childVH  = (ChildVH) holder;
+                ChildVH childVH = (ChildVH) holder;
                 childVH.tv_city.setText(c.getName());
                 break;
         }
@@ -73,6 +75,18 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ItemVH
         return mLocationCityList.get(position).getType();
     }
 
+    /**
+     * 提供给Activity刷新数据
+     * @param list
+     */
+    public void updateList(List<Location.city> list){
+        this.mLocationCityList = list;
+        notifyDataSetChanged();
+    }
+
+    public Object getItem(int position) {
+        return mLocationCityList.get(position);
+    }
 
     /**
      * Recycle分组，group是组头
@@ -131,5 +145,27 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ItemVH
 
         public abstract int getType();
     }
-}
 
+    /**
+     * 根据ListView的当前位置获取分类的首字母的char ascii值
+     */
+    public int getSectionForPosition(int position) {
+        return mLocationCityList.get(position).getPinyin().charAt(0) - 32;
+    }
+
+    /**
+     * 根据分类的首字母的Char ascii值获取其第一次出现该首字母的位置
+     */
+    public int getPositionForSection(int section) {
+        for (int i = 0; i < getItemCount(); i++) {
+            String sortStr = mLocationCityList.get(i).getPinyin().substring(0, 1);
+            char firstChar = sortStr.toUpperCase().charAt(0);
+            if (firstChar == section) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
+}

@@ -25,6 +25,7 @@ import com.baidu.location.LocationClientOption;
 import com.example.meituan.R;
 import com.example.meituan.adapter.LocationAdapter;
 import com.example.meituan.bean.Location;
+import com.example.meituan.part.SideBar;
 import com.example.meituan.util.AnalysisJson;
 
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class LocationActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
 
+    private LinearLayoutManager manager;
+
     private LocationAdapter locationAdapter = new LocationAdapter();
 
     private List<String> letters = Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
@@ -58,6 +61,9 @@ public class LocationActivity extends AppCompatActivity {
     private RelativeLayout rl_current_location;
     private TextView tv_current_location;
     public LocationClient mLocationClient;
+
+    private SideBar sideBar;
+    private TextView tv_dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +81,11 @@ public class LocationActivity extends AppCompatActivity {
 
         loadCityRecycle();
 
-        getCurrentPosition();
+        initSideBar();
+        recyclerView.setLayoutManager(manager);
+
+
+//        getCurrentPosition();
 
 
     }
@@ -85,6 +95,8 @@ public class LocationActivity extends AppCompatActivity {
         gridLayout = findViewById(R.id.gl_hot_city_grid);
         rl_current_location = findViewById(R.id.rl_current_location);
         tv_current_location = findViewById(R.id.tv_current_location);
+        sideBar = findViewById(R.id.sideBar);
+        tv_dialog = findViewById(R.id.tv_dialog);
     }
 
     /**
@@ -153,13 +165,37 @@ public class LocationActivity extends AppCompatActivity {
         citySort();
 
         //需要context对象参数
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        manager = new LinearLayoutManager(this);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+
         locationAdapter.setmlocationList(mlocationCityList);
-        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(locationAdapter);
+        recyclerView.setHasFixedSize(true);
+
 
         Log.d(TAG, String.valueOf(locationAdapter.getItemCount()));
+
+    }
+
+    /**
+     * 侧边栏字母索引
+     */
+    private void initSideBar() {
+        sideBar.setWillNotDraw(false);
+        sideBar.setTextView(tv_dialog);
+        //设置右侧SideBar触摸监听
+        sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
+
+            @Override
+            public void onTouchingLetterChanged(String s) {
+                //该字母首次出现的位置
+                int position = locationAdapter.getPositionForSection(s.charAt(0));
+                if (position != -1) {
+                    manager.scrollToPositionWithOffset(position, 0);
+                }
+
+            }
+        });
 
     }
 
@@ -206,7 +242,7 @@ public class LocationActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mLocationClient.stop();
+//        mLocationClient.stop();
     }
 
     @Override
