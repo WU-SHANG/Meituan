@@ -77,7 +77,7 @@ public class LocationActivity extends AppCompatActivity {
         location = (Location) AnalysisJson.analysisJson(this, fileName, new Location());
         Log.d("location", String.valueOf(location.getPos()));
 
-        loadHotCityGrid();
+//        loadHotCityGrid();
 
         loadCityRecycle();
 
@@ -92,7 +92,7 @@ public class LocationActivity extends AppCompatActivity {
 
     private void initView() {
         recyclerView = findViewById(R.id.recycler_location_view);
-        gridLayout = findViewById(R.id.gl_hot_city_grid);
+//        gridLayout = findViewById(R.id.gl_hot_city_grid);
         rl_current_location = findViewById(R.id.rl_current_location);
         tv_current_location = findViewById(R.id.tv_current_location);
         sideBar = findViewById(R.id.sideBar);
@@ -106,9 +106,17 @@ public class LocationActivity extends AppCompatActivity {
         for (int i = 0; i < letters.size(); i++) {
             String str = letters.get(i);
             char ch = (char) (str.charAt(0) + 32);
-            LocationAdapter.Group group = new LocationAdapter.Group();
-            group.setPinyin(letters.get(i));
-            mlocationCityList.add(group);
+
+            if (i==0){
+                LocationAdapter.GroupA groupA = new LocationAdapter.GroupA();
+                groupA.setPinyin(str);
+                mlocationCityList.add(groupA);
+            } else {
+                LocationAdapter.Group group = new LocationAdapter.Group();
+                group.setPinyin(str);
+                mlocationCityList.add(group);
+            }
+
             for (Location.city city : locationCityList) {
                 char c = city.getPinyin().charAt(0);
                 if (ch == c) {
@@ -167,6 +175,9 @@ public class LocationActivity extends AppCompatActivity {
         //需要context对象参数
         manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        locationHotCityList = location.getHotCityList();
+        locationAdapter.setmlocationHotList(locationHotCityList);
 
         locationAdapter.setmlocationList(mlocationCityList);
         recyclerView.setAdapter(locationAdapter);

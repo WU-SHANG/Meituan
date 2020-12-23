@@ -1,0 +1,114 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/ll_city_A"
+    android:orientation="vertical">
+
+    <!--您正在看-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="您正在看：北京"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="选择县区 >"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <!--位置及热门城市-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_gray"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical"
+            android:text="定位/最近访问"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!--定位-->
+        <RelativeLayout
+            android:id="@+id/rl_current_location"
+            android:layout_width="93dp"
+            android:layout_height="38dp"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/bg_white_btn"
+            android:gravity="center_horizontal|center_vertical">
+
+            <TextView
+                android:id="@+id/tv_current_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="哈哈"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="3dp"
+                android:layout_toLeftOf="@+id/tv_current_location"
+                android:background="@drawable/icon_current_position" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="bottom"
+            android:text="热门城市"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!--热门城市网格-->
+        <GridLayout
+            android:id="@+id/gl_hot_city_grid"
+            android:layout_width="match_parent"
+            android:layout_height="175dp"
+            android:columnCount="3">
+
+        </GridLayout>
+
+    </LinearLayout>
+
+    <!--分割线-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D0D0D0"
+        android:gravity="bottom" />
+
+    <TextView
+        android:id="@+id/tv_group"
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:paddingLeft="12dp"
+        android:gravity="center_vertical"
+        android:background="@color/background_gray"
+        android:text="A"
+        android:textSize="14sp"/>
+
+</LinearLayout>

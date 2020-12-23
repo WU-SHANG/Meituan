@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.LocationActivity">
+    tools:context=".activity.LocationActivity"
+    tools:ignore="ExtraText">
 
     <!--标题栏-->
     <RelativeLayout
@@ -31,12 +32,12 @@
 
     </RelativeLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="none">
-
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:fillViewport="true"-->
+<!--        android:scrollbars="none">-->
+    <![CDATA[
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -139,7 +140,7 @@
                 android:layout_height="1dp"
                 android:background="#D0D0D0"
                 android:gravity="bottom" />
-
+]]>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -165,12 +166,12 @@
                 <com.example.meituan.part.SideBar
                     android:id="@+id/sideBar"
                     android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:background="@color/background_yellow"/>
+                    android:layout_height="300dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true" />
 
             </RelativeLayout>
 
-        </LinearLayout>
-    </ScrollView>
+<!--        </LinearLayout>-->
+<!--    </ScrollView>-->
 </LinearLayout>

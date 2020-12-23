@@ -1,9 +1,12 @@
 package com.example.meituan.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -11,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meituan.R;
+import com.example.meituan.activity.LocationActivity;
 import com.example.meituan.bean.Location;
 
 import java.util.List;
@@ -18,13 +22,19 @@ import java.util.List;
 
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ItemVH> {
     private List<Location.city> mLocationCityList;
-    private TextView tv_dialog;
+    private List<Location.hotCity> mLocationHotCityList;
+    Activity activity;
 
     private static final int TYPE_GROUP = 0xa01;
     private static final int TYPE_CHILD = 0xa02;
+    private static final int TYPE_GROUP_A = 0xa03;
 
     public void setmlocationList(List<Location.city> mCityList) {
         this.mLocationCityList = mCityList;
+    }
+
+    public void setmlocationHotList(List<Location.hotCity> mHotCityList) {
+        this.mLocationHotCityList = mHotCityList;
     }
 
     @NonNull
@@ -41,6 +51,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ItemVH
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.location_item_view, parent, false);
                 itemVH = new ChildVH(view);
                 break;
+            case TYPE_GROUP_A:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.location_item_a, parent, false);
+                itemVH = new GroupAVH(view);
         }
 
         return itemVH;
@@ -61,6 +74,26 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ItemVH
                 Child c = (Child) city;
                 ChildVH childVH = (ChildVH) holder;
                 childVH.tv_city.setText(c.getName());
+                break;
+            case TYPE_GROUP_A:
+                GroupAVH groupAVH = (GroupAVH) holder;
+                int cur = 0;
+                activity = (Activity) holder.itemView.getContext();
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        Button btn = new Button(activity);
+                        btn.setBackground(activity.getResources().getDrawable(R.drawable.bg_white_btn));
+                        btn.setText(mLocationHotCityList.get(cur++).getName());
+                        GridLayout.Spec rowSpec = GridLayout.spec(i);
+                        GridLayout.Spec columnSpec = GridLayout.spec(j);
+                        GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
+                        params.width = 280;
+                        params.height = 120;
+                        params.topMargin = 40;
+                        params.leftMargin = 40;
+                        groupAVH.gridLayout.addView(btn, params);
+                    }
+                }
                 break;
         }
     }
@@ -107,6 +140,34 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ItemVH
         }
 
     }
+
+    public static class GroupA extends Location.city {
+
+        @Override
+        public int getType() {
+            return TYPE_GROUP_A;
+        }
+    }
+
+    private static class GroupAVH extends ItemVH {
+
+        LinearLayout ll_city_A;
+        GridLayout gridLayout;
+
+
+        public GroupAVH(View itemView) {
+            super(itemView);
+            ll_city_A = itemView.findViewById(R.id.ll_city_A);
+            gridLayout = itemView.findViewById(R.id.gl_hot_city_grid);
+
+        }
+
+        @Override
+        public int getType() {
+            return TYPE_GROUP;
+        }
+    }
+
 
     private static class GroupVH extends ItemVH {
 
