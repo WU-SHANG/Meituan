@@ -79,13 +79,11 @@ public class LocationActivity extends AppCompatActivity {
 
 //        loadHotCityGrid();
 
+//        getCurrentPosition();
         loadCityRecycle();
 
         initSideBar();
         recyclerView.setLayoutManager(manager);
-
-
-//        getCurrentPosition();
 
 
     }
@@ -213,15 +211,15 @@ public class LocationActivity extends AppCompatActivity {
     /**
      * 注册定位监听器，获取定位需要的权限
      */
-    private void getCurrentPosition() {
+    public void getCurrentPosition() {
         mLocationClient = new LocationClient(getApplicationContext());
         LocationClientOption option = new LocationClientOption();
         //需要获取当前位置详细的地址信息
         option.setIsNeedAddress(true);
         //设置刷新频率5秒一次
-        //option.setScanSpan(5000);
+        option.setScanSpan(5000);
         //设置定位模式为GPS定位
-//        option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
+        option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
         mLocationClient.setLocOption(option);
         mLocationClient.registerLocationListener(new MyLocationListener());
         //权限列表

@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meituan.R;
-import com.example.meituan.activity.LocationActivity;
+
 import com.example.meituan.bean.Location;
 
 import java.util.List;
@@ -154,12 +154,10 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ItemVH
         LinearLayout ll_city_A;
         GridLayout gridLayout;
 
-
         public GroupAVH(View itemView) {
             super(itemView);
             ll_city_A = itemView.findViewById(R.id.ll_city_A);
             gridLayout = itemView.findViewById(R.id.gl_hot_city_grid);
-
         }
 
         @Override
